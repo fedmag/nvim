@@ -13,4 +13,18 @@ return {
       require("mini.pairs").setup()
     end,
   },
+  {
+    "echasnovski/mini.notify",
+    version = "*",
+    config = function()
+      require("mini.notify").setup()
+    end,
+  },
+  {
+    "echasnovski/mini.starter",
+    version = "*",
+    config = function()
+      require("mini.starter").setup()
+    end,
+  },
 }
