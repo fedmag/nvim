@@ -4,7 +4,11 @@ return -- lazy.nvim
 	event = "VeryLazy",
 	enabled = not vim.g.vscode,
 	-- enabled = false,
-	opts = {},
+	opts = {
+    presets = {
+      lsp_doc_border = true
+    }
+  },
 	dependencies = {
 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 		"MunifTanjim/nui.nvim",
