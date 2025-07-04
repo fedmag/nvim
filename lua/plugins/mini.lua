@@ -8,6 +8,7 @@ return {
   },
   {
     "echasnovski/mini.pairs",
+    enable = not vim.g.vscode,
     version = "*",
     config = function()
       require("mini.pairs").setup()
@@ -22,6 +23,7 @@ return {
   },
   {
     "echasnovski/mini.notify",
+    enable = not vim.g.vscode,
     version = "*",
     config = function()
       require("mini.notify").setup()

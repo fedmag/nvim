@@ -1,5 +1,6 @@
 return {
   "folke/trouble.nvim",
+  enable = not vim.g.vscode,
   opts = {
     auto_preview = true, -- automatically open preview when on an item
     modes = {
