@@ -30,6 +30,14 @@ return {
     end,
   },
   {
+    "echasnovski/mini.cursorword",
+    enable = not vim.g.vscode,
+    version = "*",
+    config = function()
+      require("mini.cursorword").setup()
+    end,
+  },
+  {
     "echasnovski/mini.starter",
     version = "*",
     config = function()

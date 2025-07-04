@@ -5,8 +5,24 @@ return {
       -- NOTE: you do not need to call setup if you don't want to.
       require("vague").setup({
         -- optional configuration here
-        vim.cmd.colorscheme("vague"),
+        -- vim.cmd.colorscheme("vague"),
       })
+    end,
+  },
+  {
+    "thesimonho/kanagawa-paper.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("kanagawa-paper-ink")
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- vim.cmd.colorscheme("kanagawa-dragon")
     end,
   },
   {
