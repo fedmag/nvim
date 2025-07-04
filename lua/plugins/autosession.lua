@@ -5,6 +5,10 @@ return {
   ---enables autocomplete for opts
   ---@module "auto-session"
   ---@type AutoSession.Config
+  config = function()
+    require('auto-session').setup({
+    })
+  end,
   opts = {
     suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
     -- log_level = 'debug',
