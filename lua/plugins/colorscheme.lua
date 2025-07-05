@@ -16,7 +16,7 @@ return {
     config = function()
       require('kanagawa-paper').setup({
         color_balance = {
-          ink = { brightness = 0.1, saturation = 0.2 },
+          ink = { brightness = 0, saturation = 0 },
         },
       })
       vim.cmd.colorscheme("kanagawa-paper-ink")
