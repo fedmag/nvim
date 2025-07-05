@@ -34,4 +34,9 @@ vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", opts)
 
 -- TERMINAL
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
-vim.keymap.set("n", "<space>tt", ":ToggleTerm dir=%:p:h<CR>") -- open terminal in the directory of the file
+
+-- vim.keymap.set({ "i", "n", "t" }, "<C-/>", ":ToggleTerm dir=%:p:h<CR>") -- open terminal in the directory of the file
+vim.api.nvim_create_user_command('TermRoot', function()
+  vim.cmd('ToggleTerm dir=' .. vim.fn.getcwd())
+end, {})
+vim.keymap.set({ "i", "n", "t" }, "<C-/>", ":TermRoot <CR>")
