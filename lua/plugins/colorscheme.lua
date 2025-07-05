@@ -15,6 +15,7 @@ return {
     priority = 1000,
     config = function()
       require('kanagawa-paper').setup({
+        transparent = true,
         color_balance = {
           ink = { brightness = 0, saturation = 0 },
         },

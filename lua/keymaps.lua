@@ -34,3 +34,4 @@ vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", opts)
 
 -- TERMINAL
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>")
+vim.keymap.set("n", "<space>tt", ":ToggleTerm dir=%:p:h<CR>") -- open terminal in the directory of the file
