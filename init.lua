@@ -10,6 +10,9 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 -- default border, for signature help noice.lua is responsible
 vim.o.winborder = 'rounded'
+
+vim.opt.listchars = { trail = '·', nbsp = '␣' }
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder
 require("config.lazy")
