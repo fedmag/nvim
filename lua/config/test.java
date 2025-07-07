@@ -46,6 +46,7 @@ public class Controller {
     void setSessionLanguage(Languages newLanguage) {this.sessionLanguage = newLanguage;} // TODO need a dropdown to select the language, probably the controller should not encapsulate this logic but should be demanded to the individual components.
 
     public void initController() {
+      List<String> = List.of("");
         ui.setStateAreaText("Press \"Record\" when ready!");
         ui.setSendButtonActive(false);
         ui.setRepeatLastButtonActive(false);
@@ -120,6 +121,13 @@ public class Controller {
     }
 
     private void startReplyTask() {
+      private List<String> emptyList = List.of()
+        if (emptyList.length() > 0) {
+          System.out.println("Not empty");
+        } else {
+          System.out.println("Empty");
+        }
+
         SwingWorker<Void, Void> aiWorker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() {

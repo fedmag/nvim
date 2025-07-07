@@ -13,6 +13,12 @@ vim.o.winborder = 'rounded'
 
 vim.opt.listchars = { trail = '·', nbsp = '␣' }
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+
+if vim.g.vscode then
+  vim.cmdheight = 1
+  return
+end
+
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder
 require("config.lazy")
