@@ -1,45 +1,71 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sync"
+	"testing"
+)
 
-// commenting 
-func main() {
+// Use channels when passing ownership of data
+// Use mutexes for managing state
 
-	fmt.Printf("test")
-
-	thisIsLong := 3 + 5
-
-	thisIsLonger := "a very long string"
-	res, err := tst(3, 4)
-	if err != nil {
-		if res == 5 {
-			fmt.Println()
-		}
-	}
-	fmt.Println(thisIsLong)
-	test()
-	l := len(thisIsLonger)
-}
-
-var ch = make(chan string, 5)
-
-func another() {
-	fmt.Println("test")
-}
-
-func test() {
-	another := Test{
-		name:  "my",
-		value: 45,
-	}
-	fmt.Printf("sturct: %v", another)
-}
-
-func tst(x, y int) (int, error) {
-	return x + y, nil
-}
-
-type Test struct {
-	name  string
+type Counter struct {
+	mu    sync.Mutex
 	value int
+}
+
+func (c *Counter) Inc() {
+	c.mu.Lock()
+	c.value++
+	c.mu.Unlock()
+}
+
+func (c *Counter) Value() int {
+	return c.value
+}
+
+func NewCounter() *Counter {
+	return &Counter{}
+}
+
+
+func TestCounter(t *testing.T) {
+	t.Run("incrementing counter 3 times leaves it at 3", func(t *testing.T) {
+		counter := NewCounter()
+		counter.Inc()
+		counter.Inc()
+		counter.Inc()
+
+		fmt.Println(counter)
+		assertCounter(t, counter, 3)
+	})
+
+	t.Run("it runs safely concurrently", func(t *testing.T) {
+		wantedCount := 1000
+		counter := NewCounter()
+
+		// A WaitGroup waits for a collection of goroutines to finish.
+		// The main goroutine calls Add to set the number of goroutines to wait for.
+		var wg sync.WaitGroup
+		wg.Add(wantedCount)
+
+		for i := 0; i < wantedCount; i++ {
+			go func() {
+				counter.Inc()
+				// Then each of the goroutines runs and calls Done when finished.
+				wg.Done()
+			}()
+		}
+		// At the same time, Wait can be used to block until all goroutines have finished.
+		wg.Wait()
+
+		assertCounter(t, counter, wantedCount)
+	})
+}
+
+func assertCounter(t testing.TB, got *Counter, want int) {
+	t.Helper()
+	if got.Value() != want {
+		t.Errorf("got %d want %d", got.Value(), want)
+	}
 }
