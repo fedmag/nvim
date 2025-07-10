@@ -14,12 +14,19 @@ vim.o.winborder = 'rounded'
 vim.opt.listchars = { trail = '·', nbsp = '␣' }
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
-if vim.g.vscode then
-  vim.cmdheight = 1
-  return
-end
+-- highlight yanked text
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+})
 
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder
 require("config.lazy")
 require("keymaps")
+
+if vim.g.vscode then
+  vim.cmdheight = 1
+  return
+end
