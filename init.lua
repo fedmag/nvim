@@ -21,6 +21,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- share clipboard with OS
+vim.opt.clipboard = "unnamedplus"
+
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder
 require("config.lazy")
