@@ -5,14 +5,14 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.cmd("set number")
 
+local opt = vim.opt
 -- sessions
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- default border, for signature help noice.lua is responsible
-vim.o.winborder = 'rounded'
+opt.winborder = 'rounded'
 
-vim.opt.listchars = { trail = '·', nbsp = '␣' }
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+opt.listchars = { trail = '·', nbsp = '␣' }
 
 -- highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -22,7 +22,22 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 
 -- share clipboard with OS
-vim.opt.clipboard = "unnamedplus"
+opt.clipboard = "unnamedplus"
+
+-- show cursorline
+opt.cursorline = true
+opt.cursorlineopt = 'screenline'
+opt.cursorcolumn = false
+
+-- start to scroll n lines before the bottom
+-- helps keeping the cursor more centered on the screen
+-- during scrolling
+opt.scrolloff = 5
+
+-- indent
+opt.autoindent = true
+opt.copyindent = true
+opt.breakindent = true
 
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder

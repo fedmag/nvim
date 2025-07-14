@@ -10,6 +10,7 @@ vim.keymap.set("n", "<S-l>", ":bnext<cr>", opts)
 vim.keymap.set("n", "gl", "$", opts)
 vim.keymap.set("n", "gh", "^", opts)
 vim.keymap.set("n", "Y", "y$", opts)
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- BUFFERS
 -- Map Ctrl+s to save the current buffer
