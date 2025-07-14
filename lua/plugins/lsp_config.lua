@@ -34,11 +34,15 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
         callback = function(event)
+          print("LSP attached to buffer: " .. event.buf)
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          print("LSP: " .. client.name)
           local map = function(keys, func, desc, mode)
             mode = mode or "n"
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
           end
 
+          map("K", vim.lsp.buf.hover, "Show Documentation")
           -- Rename the variable under your cursor.
           -- Most Language Servers support renaming across files, etc.
           map("<leader>gn", vim.lsp.buf.rename, "[R]e[n]ame")
@@ -46,7 +50,7 @@ return {
           -- or a suggestion from your LSP for this to activate.
           map("<leader>ga", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
           -- Find references for the word under your cursor.
-          map("<leader>gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+          map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
           -- Jump to the implementation of the word under your cursor.
           -- Useful when your language has ways of declaring types without an actual implementation.
           map("<leader>gi", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
