@@ -45,12 +45,10 @@ opt.swapfile = false
 -- Enable undofiles
 opt.undofile = true
 vim.o.undodir = vim.fs.normalize('~/.cache')
---test
 
 -- Enable auto write
 opt.autowriteall = true
---
---test
+
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder
 require("config.lazy")

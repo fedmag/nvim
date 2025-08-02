@@ -3,7 +3,7 @@
 -- in that specific plugin file
 local opts = { noremap = true, silent = true }
 
-vim.keymap.set("v", "p", "_dP", opts)
+vim.keymap.set("v", "p", '"_dP', opts)
 vim.keymap.set("n", "U", "<C-r>", opts)
 vim.keymap.set("n", "<S-h>", ":bprevious<cr>", opts)
 vim.keymap.set("n", "<S-l>", ":bnext<cr>", opts)
