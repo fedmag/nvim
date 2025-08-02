@@ -32,13 +32,25 @@ opt.cursorcolumn = false
 -- start to scroll n lines before the bottom
 -- helps keeping the cursor more centered on the screen
 -- during scrolling
-opt.scrolloff = 5
+opt.scrolloff = 10
 
 -- indent
 opt.autoindent = true
 opt.copyindent = true
 opt.breakindent = true
 
+-- disable swapfile
+opt.swapfile = false
+
+-- Enable undofiles
+opt.undofile = true
+vim.o.undodir = vim.fs.normalize('~/.cache')
+--test
+
+-- Enable auto write
+opt.autowriteall = true
+--
+--test
 -- this starts lazy.nvim
 -- which imports the 'plugins' folder
 require("config.lazy")

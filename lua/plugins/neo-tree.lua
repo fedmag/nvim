@@ -14,7 +14,7 @@ return {
     -- fill any relevant options here
   },
   config = function()
-    vim.keymap.set("n", "<leader>\\", ":Neotree toggle <CR>", { desc = "Neotree show tree" })
+    vim.keymap.set("n", "<leader>e", ":Neotree toggle <CR>", { desc = "Neotree show tree" })
     require("neo-tree").setup({
       auto_open = false,
     })
