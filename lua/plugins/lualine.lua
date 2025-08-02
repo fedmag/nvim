@@ -1,3 +1,4 @@
+local kanagawa_paper = require("lualine.themes.kanagawa-paper-ink")
 return {
   "nvim-lualine/lualine.nvim",
   enabled = not vim.g.vscode,
@@ -5,7 +6,7 @@ return {
   config = function()
     require("lualine").setup({
       options = {
-        theme = "kanagawa_paper",
+        theme = kanagawa_paper,
       },
       sections = {
         lualine_a = { "mode" },
@@ -13,7 +14,7 @@ return {
         lualine_c = {
           {
             "filename",
-            path = 3,       -- 1 shows the relative path from the current working directory
+            path = 3,             -- 1 shows the relative path from the current working directory
             shorting_target = 40, -- shorten the path if it exceeds this length
           },
         },
