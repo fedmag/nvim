@@ -119,20 +119,15 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width
 -- Close current window
 vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silent = true })
 
-
-----
----
----
----
----
----
-
+-- ==================================================
+-- ======================SNACKS======================
+-- ==================================================
 map("n", "<leader><space>", function() require('snacks').picker.smart() end, { desc = "Smart Find Files" })
 map("n", "<leader>,",       function() require('snacks').picker.buffers() end, { desc = "Buffers" })
 map("n", "<leader>/",       function() require('snacks').picker.grep() end, { desc = "Grep" })
 map("n", "<leader>:",       function() require('snacks').picker.command_history() end, { desc = "Command History" })
 map("n", "<leader>n",       function() require('snacks').picker.notifications() end, { desc = "Notification History" })
-map("n", "<leader>e",       function() require('snacks').explorer() end, { desc = "File Explorer" })
+-- map("n", "<leader>e",       function() require('snacks').explorer() end, { desc = "File Explorer" })
 -- find
 map("n", "<leader>fb",      function() require('snacks').picker.buffers() end, { desc = "Buffers" })
 map("n", "<leader>fc",      function() require('snacks').picker.files({ cwd = vim.fn.stdpath("config") }) end, { desc = "Find Config File" })
@@ -319,9 +314,6 @@ require("snacks").setup({
       }
     }
   },
-  keys = {
-    -- Top Pickers & Explorer
-  },
 })
 
 require("fzf-lua").setup({})
@@ -415,13 +407,7 @@ vim.keymap.set("n", "<leader>q", function()
 end, { desc = "Open diagnostic list" })
 vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
 
-
-
-
-
-
 -- rm global warnings
-
 vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
@@ -479,8 +465,8 @@ require("blink.cmp").setup({
     end,
   },
   fuzzy = {
-    implementation = "prefer_rust",
-    prebuilt_binaries = { download = true },
+    implementation = "lua",
+    prebuilt_binaries = { download = true, force_version = "v0.8.2" },
   },
 })
 
