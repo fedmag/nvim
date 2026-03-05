@@ -119,6 +119,145 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width
 -- Close current window
 vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silent = true })
 
+-- ============================================================================
+-- PLUGIN
+-- ============================================================================
+
+-- ===== INTSTALL =====
+vim.pack.add({
+  -- colorscheme
+  { src = "https://github.com/vague2k/vague.nvim" },
+  { src = "https://github.com/theisimonho/kanagawa-paper.nvim" },
+  -- lsp
+  { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+  { src = "https://github.com/ibhagwan/fzf-lua" },
+  { src = "https://github.com/folke/snacks.nvim" },
+
+  -- completion
+  { src = "https://github.com/L3MON4D3/LuaSnip" },
+  { src = "https://github.com/rafamadriz/friendly-snippets" },
+  { src = "https://github.com/Saghen/blink.cmp" },
+  -- mini
+  { src = "https://github.com/nvim-mini/mini.nvim" },
+  -- git
+  { src = "https://github.com/lewis6991/gitsigns.nvim" },
+  -- treesitter
+  {
+    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+    branch = 'main',
+    build = ':TSUpdate'
+  },
+  -- sessions
+  { src = "https://github.com/rmagatti/auto-session" },
+})
+
+-- ===== COLORSCHEME =====
+-- test
+require("kanagawa-paper").setup({
+  styles = {
+    comment = {
+      italic = true
+    }
+  }
+})
+vim.cmd("colorscheme kanagawa-paper-ink")
+
+-- ===== MINI =====
+require("mini.files").setup({
+  windows = {
+    preview = true,
+    max_number = 3,
+    width_no_focus = 10,
+    width_preview = 50
+  }
+})
+require("mini.icons").setup()
+require("mini.pairs").setup()
+require("mini.ai").setup()
+require("mini.surround").setup()
+require("mini.cursorword").setup()
+require("mini.indentscope").setup()
+require("mini.notify").setup()
+require("mini.statusline").setup()
+-- require("mini.pick").setup()
+require("mini.tabline").setup()
+local hipatterns = require('mini.hipatterns')
+hipatterns.setup({
+  highlighters = {
+    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE', PERF
+    fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+    hack      = { pattern = '%f[%w]()PERF()%f[%W]', group = 'MiniHipatternsHack' },
+    todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+    note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+
+    -- Highlight hex color strings (`#rrggbb`) using that color
+    hex_color = hipatterns.gen_highlighter.hex_color(),
+  },
+
+})
+
+-- ===== LSP =====
+require("mason").setup()
+require("mason-lspconfig").setup {
+  ensure_installed = { "lua_ls", "vtsls", "gopls", "pyright" },
+}
+
+
+-- rm global warnings
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      diagnostics = { globals = { "vim" } },
+      telemetry = { enable = false },
+    },
+  },
+})
+vim.lsp.config("pyright", {})
+vim.lsp.config("vtsls", {})
+vim.lsp.config("gopls", {})
+vim.lsp.config("clangd", {})
+
+vim.lsp.config["*"] = {
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
+}
+
+vim.lsp.enable({
+  "lua_ls",
+  "pyright",
+  "vtsls",
+  "gopls",
+})
+
+require("snacks").setup({
+  -- local Snacks = require("snacks")
+  opts = {
+    bigfile = { enabled = true },
+    dashboard = { enabled = true },
+    explorer = { enabled = true },
+    indent = { enabled = true },
+    input = { enabled = true },
+    notifier = {
+      enabled = true,
+      timeout = 3000,
+    },
+    picker = { enabled = true },
+    quickfile = { enabled = true },
+    scope = { enabled = true },
+    scroll = { enabled = true },
+    statuscolumn = { enabled = true },
+    words = { enabled = true },
+    styles = {
+      notification = {
+        -- wo = { wrap = true } -- Wrap notifications
+      }
+    }
+  },
+})
+require("fzf-lua").setup({})
+
+
 -- ==================================================
 -- ======================SNACKS======================
 -- ==================================================
@@ -173,8 +312,8 @@ map("n", "<leader>sM",      function() require('snacks').picker.man() end, { des
 map("n", "<leader>sp",      function() require('snacks').picker.lazy() end, { desc = "Search for Plugin Spec" })
 map("n", "<leader>sq",      function() require('snacks').picker.qflist() end, { desc = "Quickfix List" })
 map("n", "<leader>sR",      function() require('snacks').picker.resume() end, { desc = "Resume" })
-map("n", "<leader>su",      function() require('snacks').picker.undo() end, { desc = "Undo History" })
-map("n", "<leader>uC",      function() require('snacks').picker.colorschemes() end, { desc = "Colorschemes" })
+-- map("n", "<leader>su",      function() require('snacks').picker.undo() end, { desc = "Undo History" })
+map("n", "<leader>col",      function() require('snacks').picker.colorschemes() end, { desc = "Colorschemes" })
 -- LSP
 map("n", "gd",              function() require('snacks').picker.lsp_definitions() end, { desc = "Goto Definition" })
 map("n", "gD",              function() require('snacks').picker.lsp_declarations() end, { desc = "Goto Declaration" })
@@ -215,222 +354,6 @@ map("n", "<leader>N", function()
   })
 end, { desc = "Neovim News" })
 
--- ============================================================================
--- PLUGIN
--- ============================================================================
-
--- ===== INTSTALL =====
-vim.pack.add({
-  -- colorscheme
-  { src = "https://github.com/vague2k/vague.nvim" },
-  -- lsp
-  { src = "https://github.com/neovim/nvim-lspconfig" },
-  { src = "https://github.com/mason-org/mason.nvim" },
-  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-  { src = "https://github.com/ibhagwan/fzf-lua" },
-  { src = "https://github.com/folke/snacks.nvim" },
-
-  -- completion
-  { src = "https://github.com/L3MON4D3/LuaSnip" },
-  { src = "https://github.com/rafamadriz/friendly-snippets" },
-  { src = "https://github.com/Saghen/blink.cmp" },
-  -- mini
-  { src = "https://github.com/nvim-mini/mini.nvim" },
-  -- git
-  { src = "https://github.com/lewis6991/gitsigns.nvim" },
-  -- treesitter
-  {
-    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    build = ':TSUpdate'
-  }
-})
-
--- ===== COLORSCHEME =====
-vim.cmd("colorscheme vague")
-
--- ===== MINI =====
-require("mini.files").setup({
-  windows = {
-    preview = true,
-    max_number = 3,
-    width_no_focus = 10,
-    width_preview = 50
-  }
-})
-require("mini.icons").setup()
-require("mini.pairs").setup()
-require("mini.ai").setup()
-require("mini.surround").setup()
-require("mini.sessions").setup()
-require("mini.cursorword").setup()
-require("mini.indentscope").setup()
-require("mini.notify").setup()
-require("mini.statusline").setup()
-require("mini.pick").setup()
-require("mini.tabline").setup()
-local hipatterns = require('mini.hipatterns')
-hipatterns.setup({
-  highlighters = {
-    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE', PERF
-    fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-    hack      = { pattern = '%f[%w]()PERF()%f[%W]', group = 'MiniHipatternsHack' },
-    todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-    note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
-
-    -- Highlight hex color strings (`#rrggbb`) using that color
-    hex_color = hipatterns.gen_highlighter.hex_color(),
-  },
-
-})
-
--- ===== LSP =====
-require("mason").setup()
-require("mason-lspconfig").setup {
-  ensure_installed = { "lua_ls", "vtsls", "gopls", "pyright" },
-}
-
-require("snacks").setup({
-  -- local Snacks = require("snacks")
-  opts = {
-    bigfile = { enabled = true },
-    dashboard = { enabled = true },
-    explorer = { enabled = true },
-    indent = { enabled = true },
-    input = { enabled = true },
-    notifier = {
-      enabled = true,
-      timeout = 3000,
-    },
-    picker = { enabled = true },
-    quickfile = { enabled = true },
-    scope = { enabled = true },
-    scroll = { enabled = true },
-    statuscolumn = { enabled = true },
-    words = { enabled = true },
-    styles = {
-      notification = {
-        -- wo = { wrap = true } -- Wrap notifications
-      }
-    }
-  },
-})
-
-require("fzf-lua").setup({})
-vim.lsp.config('*', {
-  { "gd", vim.lsp.buf.definition,                             desc = "Goto Definition",       has = "definition" },
-  { "gr", vim.lsp.buf.references,                             desc = "References",            nowait = true },
-  { "gI", vim.lsp.buf.implementation,                         desc = "Goto Implementation" },
-  { "gy", vim.lsp.buf.type_definition,                        desc = "Goto T[y]pe Definition" },
-  { "gD", vim.lsp.buf.declaration,                            desc = "Goto Declaration" },
-  { "K",  function() return vim.lsp.buf.hover() end,          desc = "Hover" },
-  { "gK", function() return vim.lsp.buf.signature_help() end, desc = "Signature Help",        has = "signatureHelp" },
-})
-
-
-local function lsp_on_attach(ev)
-  local client = vim.lsp.get_client_by_id(ev.data.client_id)
-  if not client then
-    return
-  end
-
-  local bufnr = ev.buf
-  local opts = { noremap = true, silent = true, buffer = bufnr }
-
-
-  vim.keymap.set("n", "<leader>gd", function()
-    require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-  end, opts)
-
-  vim.keymap.set("n", "<leader>gD", vim.lsp.buf.definition, opts)
-
-  vim.keymap.set("n", "<leader>gS", function()
-    vim.cmd("vsplit")
-    vim.lsp.buf.definition()
-  end, opts)
-
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-
-  vim.keymap.set("n", "<leader>D", function()
-    vim.diagnostic.open_float({ scope = "line" })
-  end, opts)
-  vim.keymap.set("n", "<leader>d", function()
-    vim.diagnostic.open_float({ scope = "cursor" })
-  end, opts)
-  vim.keymap.set("n", "<leader>nd", function()
-    vim.diagnostic.jump({ count = 1 })
-  end, opts)
-
-  vim.keymap.set("n", "<leader>pd", function()
-    vim.diagnostic.jump({ count = -1 })
-  end, opts)
-
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-
-  vim.keymap.set("n", "<leader>fd", function()
-    require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-  end, opts)
-  vim.keymap.set("n", "<leader>fr", function()
-    require("fzf-lua").lsp_references()
-  end, opts)
-  vim.keymap.set("n", "<leader>ft", function()
-    require("fzf-lua").lsp_typedefs()
-  end, opts)
-  vim.keymap.set("n", "<leader>fs", function()
-    require("fzf-lua").lsp_document_symbols()
-  end, opts)
-  vim.keymap.set("n", "<leader>fw", function()
-    require("fzf-lua").lsp_workspace_symbols()
-  end, opts)
-  vim.keymap.set("n", "<leader>fi", function()
-    require("fzf-lua").lsp_implementations()
-  end, opts)
-
-  if client:supports_method("textDocument/codeAction", bufnr) then
-    vim.keymap.set("n", "<leader>oi", function()
-      vim.lsp.buf.code_action({
-        context = { only = { "source.organizeImports" }, diagnostics = {} },
-        apply = true,
-        bufnr = bufnr,
-      })
-      vim.defer_fn(function()
-        vim.lsp.buf.format({ bufnr = bufnr })
-      end, 50)
-    end, opts)
-  end
-end
-
-
-vim.keymap.set("n", "<leader>q", function()
-  vim.diagnostic.setloclist({ open = true })
-end, { desc = "Open diagnostic list" })
-vim.keymap.set("n", "<leader>dl", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
-
--- rm global warnings
-vim.lsp.config("lua_ls", {
-  settings = {
-    Lua = {
-      diagnostics = { globals = { "vim" } },
-      telemetry = { enable = false },
-    },
-  },
-})
-vim.lsp.config("pyright", {})
-vim.lsp.config("vtsls", {})
-vim.lsp.config("gopls", {})
-vim.lsp.config("clangd", {})
-
-vim.lsp.config["*"] = {
-  capabilities = require("blink.cmp").get_lsp_capabilities(),
-}
-
-vim.lsp.enable({
-  "lua_ls",
-  "pyright",
-  "vtsls",
-  "gopls",
-})
 
 -- ===== COMPLETION =====
 require("luasnip.loaders.from_vscode").lazy_load()
@@ -451,7 +374,6 @@ require("blink.cmp").setup({
     },
     documentation = {
       auto_show = true,
-      auto_show_dealy = 300
     },
     menu = {
       auto_show = true,
@@ -480,6 +402,10 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = { '<filetype>' },
   callback = function() vim.treesitter.start() end,
 })
+
+-- ===== SESSIONS =====
+require('auto-session').setup({})
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ===== DIAGNOSTIC =====
 local diagnostic_signs = {
@@ -521,7 +447,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.hl.on_yank()
   end,
 })
-vim.api.nvim_create_autocmd("LspAttach", { group = augroup, callback = lsp_on_attach })
 
 -- this is needed so that the diagnostic window shows up if we are on that specific line
 local function au(typ, pattern, cmdOrFn)
