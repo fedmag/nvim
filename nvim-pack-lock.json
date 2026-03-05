@@ -60,6 +60,10 @@
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
     },
+    "snacks.nvim": {
+      "rev": "9912042fc8bca2209105526ac7534e9a0c2071b2",
+      "src": "https://github.com/folke/snacks.nvim"
+    },
     "vague.nvim": {
       "rev": "2baf167930cf2fa9c6aa7de08a4522e9fb527b33",
       "src": "https://github.com/vague2k/vague.nvim"
