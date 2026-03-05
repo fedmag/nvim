@@ -1,3 +1,5 @@
+-- config built for nvim 0.12
+-- updated on: 2026-03-05
 -- ============================================================================
 -- OPTIONS
 -- ============================================================================
@@ -151,9 +153,12 @@ vim.pack.add({
   },
   -- sessions
   { src = "https://github.com/rmagatti/auto-session" },
+  -- tmux
+  { src = "https://github.com/aserowy/tmux.nvim" },
 })
 
 -- ===== COLORSCHEME =====
+
 -- test
 require("kanagawa-paper").setup({
   styles = {
@@ -406,6 +411,8 @@ vim.api.nvim_create_autocmd('FileType', {
 -- ===== SESSIONS =====
 require('auto-session').setup({})
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+-- ===== TMUX =====
+require('tmux').setup({})
 
 -- ===== DIAGNOSTIC =====
 local diagnostic_signs = {
