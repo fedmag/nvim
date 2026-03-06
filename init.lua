@@ -383,8 +383,8 @@ require("snacks").setup({
           title = "{title} {live} {flags}",
           title_pos = "center",
           { win = "input",   height = 1,          border = "bottom" },
-          { win = "list",    border = "none" },
-          { win = "preview", title = "{preview}", height = 0.4,     border = "top" },
+          { win = "list",    border = "top" },
+          { win = "preview", title = "{preview}", height = 0.5,     border = "top" },
         },
       }
     },
