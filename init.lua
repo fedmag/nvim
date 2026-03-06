@@ -367,8 +367,6 @@ require("snacks").setup({
             { win = "list",  border = "none" },
           },
           { win = "preview", title = "{preview}", border = true, width = 0.5 },
-
-
         }
       },
       verticalMax = {
@@ -393,7 +391,6 @@ require("snacks").setup({
         return vim.o.columns >= 120 and "horizontalMax" or "verticalMax"
       end,
     }
-
   },
 })
 
