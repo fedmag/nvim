@@ -1,5 +1,14 @@
--- config built for nvim 0.12
--- updated on: 2026-03-05
+-- config built for nvim v0.12
+-- updated on: 2026-03-06
+--
+-- there are 4 sections:
+-- OPTIONS: general built-in options
+-- KEYMAPS: movements, navigation and file explorer
+-- PLUGINS: divided into macrocategories, each containing multiple plugins. Ex:
+--        - COMPLETION: blink, fzf-lua
+--        - LSP: mason, mason-lspconfig, nvim-lspconfig
+--        ...
+-- AUTOCMDS: all autocmds
 -- ============================================================================
 -- OPTIONS
 -- ============================================================================
@@ -59,6 +68,36 @@ vim.opt.selection = "inclusive"                   -- include last char in select
 vim.opt.mouse = "a"                               -- enable mouse support
 vim.opt.clipboard:append("unnamedplus")           -- use system clipboard
 vim.opt.modifiable = true                         -- allow buffer modifications
+
+
+-- ===== DIAGNOSTIC =====
+local diagnostic_signs = {
+  Error = " ",
+  Warn = " ",
+  Hint = "",
+  Info = "",
+}
+
+vim.diagnostic.config({
+  virtual_text = { prefix = "●", spacing = 4 },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
+      [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
+      [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
+      [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+    },
+  },
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = true,
+    focusable = false,
+    style = "minimal",
+  },
+})
 
 -- ============================================================================
 -- KEYMAPS
@@ -122,7 +161,7 @@ map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width
 vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silent = true })
 
 -- ============================================================================
--- PLUGIN
+-- PLUGINS
 -- ============================================================================
 
 -- ===== COLORSCHEME =====
@@ -180,7 +219,6 @@ hipatterns.setup({
 
 -- ===== LSP =====
 vim.pack.add({
-  -- lsp
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
@@ -215,6 +253,13 @@ vim.lsp.enable({
   "gopls",
 })
 
+
+-- ===== SNACKS =====
+vim.pack.add({
+  { src = "https://github.com/folke/snacks.nvim" },
+  { src = "https://github.com/ibhagwan/fzf-lua" },
+})
+
 require("snacks").setup({
   -- local Snacks = require("snacks")
   opts = {
@@ -242,14 +287,6 @@ require("snacks").setup({
 })
 require("fzf-lua").setup({})
 
-
--- ==================================================
--- ======================SNACKS======================
--- ==================================================
-vim.pack.add({
-  { src = "https://github.com/folke/snacks.nvim" },
-  { src = "https://github.com/ibhagwan/fzf-lua" },
-})
 map("n", "<leader><space>", function() require('snacks').picker.smart() end, { desc = "Smart Find Files" })
 map("n", "<leader>,", function() require('snacks').picker.buffers() end, { desc = "Buffers" })
 map("n", "<leader>/", function() require('snacks').picker.grep() end, { desc = "Grep" })
@@ -348,10 +385,8 @@ map("n", "<leader>N", function()
   })
 end, { desc = "Neovim News" })
 
-
 -- ===== COMPLETION =====
 vim.pack.add({
-  -- completion
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
   { src = "https://github.com/Saghen/blink.cmp" },
@@ -394,16 +429,15 @@ require("blink.cmp").setup({
 
 -- ===== GIT =====
 vim.pack.add({
-  -- git
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
+
 require('gitsigns').setup({
   current_line_blame = true
 })
 
 -- ===== TREESITTER =====
 vim.pack.add({
-  -- treesitter
   {
     src = 'https://github.com/nvim-treesitter/nvim-treesitter',
     branch = 'main',
@@ -411,22 +445,19 @@ vim.pack.add({
   },
 })
 
-
 -- ===== SESSIONS =====
 vim.pack.add({
-  -- sessions
   { src = "https://github.com/rmagatti/auto-session" },
-  -- tmux
-  { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
 })
+
 require('auto-session').setup({})
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ===== TMUX =====
 vim.pack.add({
-  -- tmux
   { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
 })
+
 local tmux = require('nvim-tmux-navigation')
 tmux.setup({
   disabled_when_zoomed = true
@@ -437,35 +468,6 @@ map('n', "<C-k>", tmux.NvimTmuxNavigateUp)
 map('n', "<C-l>", tmux.NvimTmuxNavigateRight)
 map('n', "<C-\\>", tmux.NvimTmuxNavigateLastActive)
 map('n', "<C-Space>", tmux.NvimTmuxNavigateNext)
-
--- ===== DIAGNOSTIC =====
-local diagnostic_signs = {
-  Error = " ",
-  Warn = " ",
-  Hint = "",
-  Info = "",
-}
-
-vim.diagnostic.config({
-  virtual_text = { prefix = "●", spacing = 4 },
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
-      [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
-      [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
-      [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
-    },
-  },
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
-  float = {
-    border = "rounded",
-    source = true,
-    focusable = false,
-    style = "minimal",
-  },
-})
 
 -- ============================================================================
 -- AUTOMODS
