@@ -125,41 +125,12 @@ vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silen
 -- PLUGIN
 -- ============================================================================
 
--- ===== INTSTALL =====
+-- ===== COLORSCHEME =====
 vim.pack.add({
   -- colorscheme
   { src = "https://github.com/vague2k/vague.nvim" },
   { src = "https://github.com/theisimonho/kanagawa-paper.nvim" },
-  -- lsp
-  { src = "https://github.com/neovim/nvim-lspconfig" },
-  { src = "https://github.com/mason-org/mason.nvim" },
-  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-  { src = "https://github.com/ibhagwan/fzf-lua" },
-  { src = "https://github.com/folke/snacks.nvim" },
-
-  -- completion
-  { src = "https://github.com/L3MON4D3/LuaSnip" },
-  { src = "https://github.com/rafamadriz/friendly-snippets" },
-  { src = "https://github.com/Saghen/blink.cmp" },
-  -- mini
-  { src = "https://github.com/nvim-mini/mini.nvim" },
-  -- git
-  { src = "https://github.com/lewis6991/gitsigns.nvim" },
-  -- treesitter
-  {
-    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    build = ':TSUpdate'
-  },
-  -- sessions
-  { src = "https://github.com/rmagatti/auto-session" },
-  -- tmux
-  { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
 })
-
--- ===== COLORSCHEME =====
-
--- test
 require("kanagawa-paper").setup({
   styles = {
     comment = {
@@ -170,6 +141,10 @@ require("kanagawa-paper").setup({
 vim.cmd("colorscheme kanagawa-paper-ink")
 
 -- ===== MINI =====
+vim.pack.add({
+  -- mini
+  { src = "https://github.com/nvim-mini/mini.nvim" },
+})
 require("mini.files").setup({
   windows = {
     preview = true,
@@ -204,11 +179,16 @@ hipatterns.setup({
 })
 
 -- ===== LSP =====
+vim.pack.add({
+  -- lsp
+  { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+})
 require("mason").setup()
 require("mason-lspconfig").setup {
   ensure_installed = { "lua_ls", "vtsls", "gopls", "pyright" },
 }
-
 
 -- rm global warnings
 vim.lsp.config("lua_ls", {
@@ -266,6 +246,10 @@ require("fzf-lua").setup({})
 -- ==================================================
 -- ======================SNACKS======================
 -- ==================================================
+vim.pack.add({
+  { src = "https://github.com/folke/snacks.nvim" },
+  { src = "https://github.com/ibhagwan/fzf-lua" },
+})
 map("n", "<leader><space>", function() require('snacks').picker.smart() end, { desc = "Smart Find Files" })
 map("n", "<leader>,", function() require('snacks').picker.buffers() end, { desc = "Buffers" })
 map("n", "<leader>/", function() require('snacks').picker.grep() end, { desc = "Grep" })
@@ -366,6 +350,12 @@ end, { desc = "Neovim News" })
 
 
 -- ===== COMPLETION =====
+vim.pack.add({
+  -- completion
+  { src = "https://github.com/L3MON4D3/LuaSnip" },
+  { src = "https://github.com/rafamadriz/friendly-snippets" },
+  { src = "https://github.com/Saghen/blink.cmp" },
+})
 require("luasnip.loaders.from_vscode").lazy_load()
 require("blink.cmp").setup({
   signature = { enabled = true },
@@ -403,20 +393,40 @@ require("blink.cmp").setup({
 })
 
 -- ===== GIT =====
+vim.pack.add({
+  -- git
+  { src = "https://github.com/lewis6991/gitsigns.nvim" },
+})
 require('gitsigns').setup({
   current_line_blame = true
 })
 
 -- ===== TREESITTER =====
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { '<filetype>' },
-  callback = function() vim.treesitter.start() end,
+vim.pack.add({
+  -- treesitter
+  {
+    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+    branch = 'main',
+    build = ':TSUpdate'
+  },
 })
 
+
 -- ===== SESSIONS =====
+vim.pack.add({
+  -- sessions
+  { src = "https://github.com/rmagatti/auto-session" },
+  -- tmux
+  { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
+})
 require('auto-session').setup({})
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 -- ===== TMUX =====
+vim.pack.add({
+  -- tmux
+  { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
+})
 local tmux = require('nvim-tmux-navigation')
 tmux.setup({
   disabled_when_zoomed = true
@@ -456,6 +466,7 @@ vim.diagnostic.config({
     style = "minimal",
   },
 })
+
 -- ============================================================================
 -- AUTOMODS
 -- ============================================================================
@@ -494,3 +505,8 @@ end)
 au('InsertLeave', nil, function()
   vim.diagnostic.enable(true)
 end)
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { '<filetype>' },
+  callback = function() vim.treesitter.start() end,
+})
