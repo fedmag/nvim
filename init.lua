@@ -5,8 +5,11 @@
 -- OPTIONS: general built-in options
 -- KEYMAPS: movements, navigation and file explorer
 -- PLUGINS: divided into macrocategories, each containing multiple plugins. Ex:
---        - COMPLETION: blink, fzf-lua
---        - LSP: mason, mason-lspconfig, nvim-lspconfig
+--        - COLORSCHEME: all colorschemes
+--        - MINI: everything related to mini.nvim
+--        - LSP and COMPLETION: mason, mason-lspconfig, nvim-lspconfig, blink, fzf-lua
+--        - TREESITTER: all related to treesitter
+--        ...
 --        ...
 -- AUTOCMDS: all autocmds
 -- ============================================================================
@@ -67,6 +70,9 @@ vim.opt.selection = "inclusive"                   -- include last char in select
 vim.opt.mouse = "a"                               -- enable mouse support
 vim.opt.clipboard = "unnamedplus"                 -- use system clipboard
 vim.opt.modifiable = true                         -- allow buffer modifications
+
+vim.opt.splitbelow = true                         -- horizontal splits go below
+vim.opt.splitright = true                         -- vertical splits go right
 
 
 -- ===== DIAGNOSTIC =====
@@ -180,7 +186,6 @@ vim.cmd("colorscheme kanagawa-paper-ink")
 
 -- ===== MINI =====
 vim.pack.add({
-  -- mini
   { src = "https://github.com/nvim-mini/mini.nvim" },
 })
 require("mini.files").setup({
@@ -196,8 +201,8 @@ require("mini.pairs").setup()
 require("mini.ai").setup()
 require("mini.surround").setup()
 require("mini.cursorword").setup()
-require("mini.indentscope").setup()
-require("mini.notify").setup()
+-- require("mini.indentscope").setup()
+-- require("mini.notify").setup()
 require("mini.statusline").setup()
 -- require("mini.pick").setup()
 require("mini.tabline").setup()
@@ -262,11 +267,12 @@ require("blink.cmp").setup({
   signature = { enabled = true },
   keymap = {
     preset = 'default',
+    ["<TAB>"] = { "accept", "fallback" },
     ["<CR>"] = { "accept", "fallback" },
   },
   completion = {
     ghost_text = {
-      enabled = true
+      enabled = true,
     },
     list = {
       selection = {
@@ -300,30 +306,50 @@ vim.pack.add({
 })
 
 require("snacks").setup({
-  -- local Snacks = require("snacks")
-  opts = {
-    bigfile = { enabled = true },
-    dashboard = { enabled = true },
-    explorer = { enabled = true },
-    indent = { enabled = true },
-    input = { enabled = true },
-    notifier = {
-      enabled = true,
-      timeout = 3000,
+  bigfile = { enabled = true },
+  dashboard = { enabled = true },
+  indent = {
+    enabled = true,
+    indent = {
+      hl = {
+        "SnacksIndent1",
+        "SnacksIndent2",
+        "SnacksIndent3",
+        "SnacksIndent4",
+        "SnacksIndent5",
+        "SnacksIndent6",
+        "SnacksIndent7",
+        "SnacksIndent8",
+      },
+      -- char = "|"
     },
-    picker = { enabled = true },
-    quickfile = { enabled = true },
-    scope = { enabled = true },
-    scroll = { enabled = true },
-    statuscolumn = { enabled = true },
-    words = { enabled = true },
-    styles = {
-      notification = {
-        -- wo = { wrap = true } -- Wrap notifications
-      }
-    }
+    scope = {
+      hl = {
+        "SnacksIndent1",
+        "SnacksIndent2",
+        "SnacksIndent3",
+        "SnacksIndent4",
+        "SnacksIndent5",
+        "SnacksIndent6",
+        "SnacksIndent7",
+        "SnacksIndent8",
+      },
+      -- char = "╎",
+      char = "|"
+    },
   },
+  scope = {
+    enabled = true,
+    scope = {}
+  },
+  input = { enabled = true },
+  notifier = {
+    enabled = true,
+    timeout = 3000,
+  },
+  picker = { enabled = true },
 })
+
 require("fzf-lua").setup({})
 
 -- Taken from snacks.picker GH
@@ -379,7 +405,6 @@ map("n", "<leader>sM", function() require('snacks').picker.man() end, { desc = "
 map("n", "<leader>sp", function() require('snacks').picker.lazy() end, { desc = "Search for Plugin Spec" })
 map("n", "<leader>sq", function() require('snacks').picker.qflist() end, { desc = "Quickfix List" })
 map("n", "<leader>sR", function() require('snacks').picker.resume() end, { desc = "Resume" })
--- map("n", "<leader>su",      function() require('snacks').picker.undo() end, { desc = "Undo History" })
 map("n", "<leader>col", function() require('snacks').picker.colorschemes() end, { desc = "Colorschemes" })
 --
 -- LSP - [G]oto...
@@ -423,6 +448,20 @@ vim.pack.add({
     build = ':TSUpdate'
   },
 })
+
+require("nvim-treesitter").setup({
+  highlight = {
+    enable = true, -- Enable Tree-Sitter-based syntax highlighting
+  },
+  fold = {
+    enable = true, -- Enable code folding
+  }
+})
+-- Folding: requires treesitter available at runtime; safe fallback if not
+vim.opt.foldmethod = "expr"                          -- use expression for folding
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- use treesitter for folding
+vim.opt.foldlevel = 99                               -- start with all folds open
+vim.opt.foldenable = false
 
 -- ===== SESSIONS =====
 vim.pack.add({
@@ -505,3 +544,4 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     vim.lsp.buf.format({ async = false })
   end,
 })
+-----------------------
