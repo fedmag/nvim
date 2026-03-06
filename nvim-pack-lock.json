@@ -56,9 +56,17 @@
       "rev": "b7fde3719340946feb75017ef9d75edebdeb0566",
       "src": "https://github.com/nvim-mini/mini.pairs"
     },
+    "multicursor.nvim": {
+      "rev": "811681faf44d8031685614cc00a148cd3ece697c",
+      "src": "https://github.com/jake-stewart/multicursor.nvim"
+    },
     "nvim-lspconfig": {
       "rev": "ead0f5f342d8d323441e7d4b88f0fc436a81ad5f",
       "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-tmux-navigation": {
+      "rev": "4898c98702954439233fdaf764c39636681e2861",
+      "src": "https://github.com/alexghergh/nvim-tmux-navigation"
     },
     "nvim-treesitter": {
       "rev": "544320a9cf5d6bf539ec1cc54d393064015670c4",
@@ -79,6 +87,10 @@
     "vague.nvim": {
       "rev": "2baf167930cf2fa9c6aa7de08a4522e9fb527b33",
       "src": "https://github.com/vague2k/vague.nvim"
+    },
+    "vim-tmux-navigator": {
+      "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
+      "src": "https://github.com/christoomey/vim-tmux-navigator"
     }
   }
 }
