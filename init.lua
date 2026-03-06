@@ -185,6 +185,12 @@ require("kanagawa-paper").setup({
 vim.cmd("colorscheme kanagawa-paper-ink")
 
 -- ===== MINI =====
+local tst = {
+  test = true
+}
+local tst = {
+  test = false
+}
 vim.pack.add({
   { src = "https://github.com/nvim-mini/mini.nvim" },
 })
@@ -201,10 +207,7 @@ require("mini.pairs").setup()
 require("mini.ai").setup()
 require("mini.surround").setup()
 require("mini.cursorword").setup()
--- require("mini.indentscope").setup()
--- require("mini.notify").setup()
 require("mini.statusline").setup()
--- require("mini.pick").setup()
 require("mini.tabline").setup()
 local hipatterns = require('mini.hipatterns')
 hipatterns.setup({
@@ -382,7 +385,7 @@ map("n", "<leader>gg", function() require('snacks').lazygit() end, { desc = "Laz
 map("n", "<leader>gl", function() require('snacks').picker.lines() end, { desc = "Grep this buffer Lines" })
 map("n", "<leader>gb", function() require('snacks').picker.grep_buffers() end, { desc = "Grep Open Buffers" })
 map("n", "<leader>gr", function() require('snacks').picker.grep() end, { desc = "Grep" })
-map({ "n", "x" }, "<leader>fw", function() require('snacks').picker.grep_word() end,
+map({ "n", "x" }, "<leader>gw", function() require('snacks').picker.grep_word() end,
   { desc = "Visual selection or word" })
 --
 -- [S]earch
