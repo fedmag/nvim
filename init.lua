@@ -350,7 +350,51 @@ require("snacks").setup({
     enabled = true,
     timeout = 3000,
   },
-  picker = { enabled = true },
+  picker = {
+    enabled = true,
+    layouts = {
+      horizontalMax = {
+        layout = {
+          box = "horizontal",
+          width = 0.95,
+          min_width = 120,
+          height = 0.95,
+          {
+            box = "vertical",
+            border = true,
+            title = "{title} {live} {flags}",
+            { win = "input", height = 1,     border = "bottom" },
+            { win = "list",  border = "none" },
+          },
+          { win = "preview", title = "{preview}", border = true, width = 0.5 },
+
+
+        }
+      },
+      verticalMax = {
+        layout = {
+          backdrop = false,
+          width = 0.95,
+          min_width = 80,
+          height = 0.95,
+          min_height = 30,
+          box = "vertical",
+          border = true,
+          title = "{title} {live} {flags}",
+          title_pos = "center",
+          { win = "input",   height = 1,          border = "bottom" },
+          { win = "list",    border = "none" },
+          { win = "preview", title = "{preview}", height = 0.4,     border = "top" },
+        },
+      }
+    },
+    layout = {
+      preset = function()
+        return vim.o.columns >= 120 and "horizontalMax" or "verticalMax"
+      end,
+    }
+
+  },
 })
 
 require("fzf-lua").setup({})
@@ -383,8 +427,8 @@ map("n", "<leader>gg", function() require('snacks').lazygit() end, { desc = "Laz
 --
 -- [G]rep
 map("n", "<leader>gl", function() require('snacks').picker.lines() end, { desc = "Grep this buffer Lines" })
-map("n", "<leader>gb", function() require('snacks').picker.grep_buffers() end, { desc = "Grep Open Buffers" })
-map("n", "<leader>gr", function() require('snacks').picker.grep() end, { desc = "Grep" })
+map("n", "<leader>gb", function() require('snacks').picker.grep_buffers() end, { desc = "Grep in Open Buffers" })
+-- map("n", "<leader>gr", function() require('snacks').picker.grep() end, { desc = "Grep" })
 map({ "n", "x" }, "<leader>gw", function() require('snacks').picker.grep_word() end,
   { desc = "Visual selection or word" })
 --
@@ -413,7 +457,7 @@ map("n", "<leader>col", function() require('snacks').picker.colorschemes() end, 
 -- LSP - [G]oto...
 map("n", "gd", function() require('snacks').picker.lsp_definitions() end, { desc = "Goto Definition" })
 map("n", "gD", function() require('snacks').picker.lsp_declarations() end, { desc = "Goto Declaration" })
-map("n", "gr", function() require('snacks').picker.lsp_references() end, { nowait = true, desc = "References" })
+map("n", "grr", function() require('snacks').picker.lsp_references() end, { nowait = true, desc = "References" })
 map("n", "gI", function() require('snacks').picker.lsp_implementations() end, { desc = "Goto Implementation" })
 map("n", "gy", function() require('snacks').picker.lsp_type_definitions() end, { desc = "Goto T[y]pe Definition" })
 map("n", "gai", function() require('snacks').picker.lsp_incoming_calls() end, { desc = "C[a]lls Incoming" })
@@ -421,6 +465,7 @@ map("n", "gao", function() require('snacks').picker.lsp_outgoing_calls() end, { 
 map("n", "<leader>ss", function() require('snacks').picker.lsp_symbols() end, { desc = "LSP Symbols" })
 map("n", "<leader>sS", function() require('snacks').picker.lsp_workspace_symbols() end,
   { desc = "LSP Workspace Symbols" })
+
 -- Other
 map("n", "<leader>z", function() require('snacks').zen() end, { desc = "Toggle Zen Mode" })
 map("n", "<leader>Z", function() require('snacks').zen.zoom() end, { desc = "Toggle Zoom" })
