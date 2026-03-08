@@ -76,6 +76,7 @@ vim.opt.splitright = true                         -- vertical splits go right
 
 
 -- ===== DIAGNOSTIC =====
+vim.diagnostic.enable(true)
 local diagnostic_signs = {
   Error = " ",
   Warn = " ",
@@ -84,7 +85,6 @@ local diagnostic_signs = {
 }
 --
 vim.diagnostic.config({
-  -- virtual_text = { prefix = "●", spacing = 4 },
   virtual_text = false,
   signs = {
     text = {
@@ -97,12 +97,6 @@ vim.diagnostic.config({
   underline = true,
   update_in_insert = false,
   severity_sort = true,
-  float = {
-    border = "rounded",
-    source = true,
-    focusable = true,
-    style = "minimal",
-  },
 })
 
 -- ============================================================================
@@ -117,7 +111,8 @@ map('n', '<leader>so', ':update<CR> :source<CR> :lua print("Config reloaded!")<C
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>')
 map('n', '<leader>ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>')
 map('n', '<leader>ed', '<Cmd>lua MiniFiles.open()<CR>')
-
+map('n', '<leader>ld', function() vim.diagnostic.setloclist({ open = true }) end,
+  { desc = "[L]ocation [D]iagnostics (useful if I want to copy the error message)" })
 map('n', '<leader>lf', vim.lsp.buf.format)
 map("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 map("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
@@ -568,33 +563,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.hl.on_yank()
   end,
 })
------------------------
-
--- this is needed so that the diagnostic window shows up if we are on that specific line
-local function au(typ, pattern, cmdOrFn)
-  if type(cmdOrFn) == 'function' then
-    vim.api.nvim_create_autocmd(typ, { pattern = pattern, callback = cmdOrFn, group = augroup })
-  else
-    vim.api.nvim_create_autocmd(typ, { pattern = pattern, command = cmdOrFn, group = augroup })
-  end
-end
-
-au({ 'CursorHold', 'InsertLeave' }, nil, function()
-  local opts = {
-    focusable = false,
-    scope = 'cursor',
-    close_events = { 'BufLeave', 'CursorMoved', 'InsertEnter' },
-  }
-  vim.diagnostic.open_float(nil, opts)
-end)
-
-au('InsertEnter', nil, function()
-  vim.diagnostic.enable(false)
-end)
-
-au('InsertLeave', nil, function()
-  vim.diagnostic.enable(true)
-end)
 -----------------------
 
 -- start treesitter
