@@ -82,9 +82,10 @@ local diagnostic_signs = {
   Hint = "",
   Info = "",
 }
-
+--
 vim.diagnostic.config({
-  virtual_text = { prefix = "●", spacing = 4 },
+  -- virtual_text = { prefix = "●", spacing = 4 },
+  virtual_text = false,
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
@@ -99,7 +100,7 @@ vim.diagnostic.config({
   float = {
     border = "rounded",
     source = true,
-    focusable = false,
+    focusable = true,
     style = "minimal",
   },
 })
@@ -114,6 +115,9 @@ local map = vim.keymap.set
 -- leader keymaps
 map('n', '<leader>so', ':update<CR> :source<CR> :lua print("Config reloaded!")<CR>')
 map('n', '<leader>e', ':lua MiniFiles.open()<CR>')
+map('n', '<leader>ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>')
+map('n', '<leader>ed', '<Cmd>lua MiniFiles.open()<CR>')
+
 map('n', '<leader>lf', vim.lsp.buf.format)
 map("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 map("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
@@ -310,7 +314,6 @@ vim.pack.add({
 
 require("snacks").setup({
   bigfile = { enabled = true },
-  dashboard = { enabled = true },
   indent = {
     enabled = true,
     indent = {
@@ -408,7 +411,7 @@ map("n", "<leader>fb", function() require('snacks').picker.buffers() end, { desc
 map("n", "<leader>fc", function() require('snacks').picker.files({ cwd = vim.fn.stdpath("config") }) end,
   { desc = "Find Config File" })
 map("n", "<leader>ff", function() require('snacks').picker.files() end, { desc = "Find Files" })
-map("n", "<leader>fg", function() require('snacks').picker.git_files() end, { desc = "Find Git Files" })
+map("n", "<leader>fgf", function() require('snacks').picker.git_files() end, { desc = "Find Git Files" })
 map("n", "<leader>fp", function() require('snacks').picker.projects() end, { desc = "Projects" })
 map("n", "<leader>fr", function() require('snacks').picker.recent() end, { desc = "Recent" })
 --
@@ -426,6 +429,7 @@ map("n", "<leader>gg", function() require('snacks').lazygit() end, { desc = "Laz
 map("n", "<leader>gl", function() require('snacks').picker.lines() end, { desc = "Grep this buffer Lines" })
 map("n", "<leader>gb", function() require('snacks').picker.grep_buffers() end, { desc = "Grep in Open Buffers" })
 -- map("n", "<leader>gr", function() require('snacks').picker.grep() end, { desc = "Grep" })
+map("n", "<leader>fg", function() require('snacks').picker.grep() end, { desc = "Grep" })
 map({ "n", "x" }, "<leader>gw", function() require('snacks').picker.grep_word() end,
   { desc = "Visual selection or word" })
 --
@@ -532,7 +536,27 @@ map('n', "<C-l>", tmux.NvimTmuxNavigateRight)
 map('n', "<C-\\>", tmux.NvimTmuxNavigateLastActive)
 map('n', "<C-Space>", tmux.NvimTmuxNavigateNext)
 
--- ============================================================================
+
+-- ===== DIAGNOSTIC =====
+vim.pack.add({
+  { src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
+})
+require("tiny-inline-diagnostic").setup({
+  preset = "modern",
+  options = {
+    show_source = { enabled = true },
+  },
+  multilines = {
+    enabled = true,           -- Enable support for multiline diagnostic messages
+    always_show = false,      -- Always show messages on all lines of multiline diagnostics
+    trim_whitespaces = false, -- Remove leading/trailing whitespace from each line
+    tabstop = 4,              -- Number of spaces per tab when expanding tabs
+    severity = nil,           -- Filter multiline diagnostics by severity (e.g., { vim.diagnostic.severity.ERROR })
+  },
+})
+
+vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
+
 -- AUTOMODS
 -- ============================================================================
 local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
