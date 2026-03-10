@@ -145,7 +145,7 @@ map("n", "Y", "y$")
 -- save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 -- delete current
-vim.api.nvim_set_keymap("n", "<leader>bd", ":confirm bd<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-x>", ":confirm bd<CR>", { noremap = true, silent = true })
 
 -- windows
 map("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
@@ -173,6 +173,10 @@ vim.pack.add({
   -- colorscheme
   { src = "https://github.com/vague2k/vague.nvim" },
   { src = "https://github.com/theisimonho/kanagawa-paper.nvim" },
+  { src = "https://github.com/EdenEast/nightfox.nvim" },
+  { src = "https://github.com/rose-pine/neovim" },
+  { src = "https://github.com/AlexvZyl/nordic.nvim" },
+  { src = "https://github.com/savq/melange-nvim" },
 })
 require("kanagawa-paper").setup({
   styles = {
@@ -184,12 +188,6 @@ require("kanagawa-paper").setup({
 vim.cmd("colorscheme kanagawa-paper-ink")
 
 -- ===== MINI =====
-local tst = {
-  test = true
-}
-local tst = {
-  test = false
-}
 vim.pack.add({
   { src = "https://github.com/nvim-mini/mini.nvim" },
 })
@@ -408,7 +406,8 @@ map("n", "<leader>fc", function() require('snacks').picker.files({ cwd = vim.fn.
 map("n", "<leader>ff", function() require('snacks').picker.files() end, { desc = "Find Files" })
 map("n", "<leader>fgf", function() require('snacks').picker.git_files() end, { desc = "Find Git Files" })
 map("n", "<leader>fp", function() require('snacks').picker.projects() end, { desc = "Projects" })
-map("n", "<leader>fr", function() require('snacks').picker.recent() end, { desc = "Recent" })
+map("n", "<leader>fR", function() require('snacks').picker.recent() end, { desc = "Recent" })
+map("n", "<leader>fr", ":lua require('snacks').picker.resume()<CR><Esc>", { desc = "Resume" })
 --
 -- [GI]t
 map("n", "<leader>gib", function() require('snacks').picker.git_branches() end, { desc = "Git Branches" })
@@ -493,13 +492,17 @@ vim.pack.add({
   },
 })
 
-require("nvim-treesitter").setup({
+local treesitter = require('nvim-treesitter')
+treesitter.setup({
   highlight = {
     enable = true, -- Enable Tree-Sitter-based syntax highlighting
   },
   fold = {
     enable = true, -- Enable code folding
   }
+})
+treesitter.install({
+  'go', 'c', 'javascript', 'typescript', 'tsx', 'json', 'lua', 'regex', 'html', 'markdown_inline', 'python'
 })
 -- Folding: requires treesitter available at runtime; safe fallback if not
 vim.opt.foldmethod = "expr"                          -- use expression for folding
@@ -552,6 +555,12 @@ require("tiny-inline-diagnostic").setup({
 
 vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
 
+-- ===== MARKDOWN =====
+vim.pack.add({
+  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
+})
+
+require("render-markdown").setup({ completion = { lsp = { enabled = true }, blink = { enabled = true } } })
 -- AUTOMODS
 -- ============================================================================
 local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
