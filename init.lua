@@ -584,7 +584,9 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- start treesitter
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = { '<filetype>' },
+  pattern = {
+    'go', 'c', 'javascript', 'typescript', 'json', 'lua', 'regex', 'html', 'markdown_inline', 'python'
+  },
   callback = function() vim.treesitter.start() end,
 })
 -----------------------
