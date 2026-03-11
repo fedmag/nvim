@@ -123,15 +123,16 @@ map("n", "<C-u>", "<C-u>zz", { desc = "Half page up (centered)" })
 map('i', 'jj', '<Esc>')
 map("n", "<Esc>", ":nohlsearch<CR>", { desc = "Clear search highlights" })
 
--- move code around
+-- move code around (SINGLE)
 map("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
 map("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
--- multiple lines
+map("n", "<A-h>", "<<", { desc = "Move line left (outdent)" })
+map("n", "<A-l>", ">>", { desc = "Move line right (indent)" })
+-- move code around (MULTIPLES)
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 map("v", "<A-h>", "<gv", { desc = "Indent left and reselect" })
 map("v", "<A-l>", ">gv", { desc = "Indent right and reselect" })
-
 -- QOL
 map("v", "p", '"_dP')
 map("n", "U", "<C-r>")
@@ -248,7 +249,14 @@ vim.lsp.config("lua_ls", {
 })
 vim.lsp.config("pyright", {})
 vim.lsp.config("vtsls", {})
-vim.lsp.config("gopls", {})
+vim.lsp.config("gopls", {
+  analyses = {
+    unusedparams = true,
+  },
+  staticcheck = true,
+  gofumpt = true,
+}
+)
 vim.lsp.config("clangd", {})
 
 vim.lsp.config["*"] = {
