@@ -74,6 +74,7 @@ vim.opt.modifiable = true                         -- allow buffer modifications
 vim.opt.splitbelow = true                         -- horizontal splits go below
 vim.opt.splitright = true                         -- vertical splits go right
 
+vim.opt.cmdwinheight = 5                          -- height of the command-line window (CTRL-F while typing a command)
 
 -- ===== DIAGNOSTIC =====
 vim.diagnostic.enable(true)
@@ -114,6 +115,9 @@ map('n', '<leader>ed', '<Cmd>lua MiniFiles.open()<CR>')
 map('n', '<leader>ld', function() vim.diagnostic.setloclist({ open = true }) end,
   { desc = "[L]ocation [D]iagnostics (useful if I want to copy the error message)" })
 map('n', '<leader>lf', vim.lsp.buf.format)
+map('n', '<leader>qi', ":quit<CR>")
+
+-- navigation
 map("n", "n", "nzzzv", { desc = "Next search result (centered)" })
 map("n", "N", "Nzzzv", { desc = "Previous search result (centered)" })
 map("n", "<C-d>", "<C-d>zz", { desc = "Half page down (centered)" })
@@ -178,15 +182,21 @@ vim.pack.add({
   { src = "https://github.com/rose-pine/neovim" },
   { src = "https://github.com/AlexvZyl/nordic.nvim" },
   { src = "https://github.com/savq/melange-nvim" },
+  { src = "https://github.com/webhooked/kanso.nvim" },
 })
 require("kanagawa-paper").setup({
   styles = {
     comment = {
-      italic = true
+      italic = false
     }
   }
 })
-vim.cmd("colorscheme kanagawa-paper-ink")
+require("kanso").setup({
+  -- minimal = true,
+  -- foreground = 'saturated'
+})
+
+vim.cmd.colorscheme("kanso-mist")
 
 -- ===== MINI =====
 vim.pack.add({
@@ -568,7 +578,21 @@ vim.pack.add({
   { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
 })
 
-require("render-markdown").setup({ completion = { lsp = { enabled = true }, blink = { enabled = true } } })
+require("render-markdown").setup({
+  completion = {
+    lsp = {
+      enabled = true
+    },
+    blink = {
+      enabled = true
+    }
+  },
+  link = {
+    wiki = {
+      enabled = true
+    }
+  }
+})
 -- AUTOMODS
 -- ============================================================================
 local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
