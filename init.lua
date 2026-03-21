@@ -177,7 +177,7 @@ vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silen
 vim.pack.add({
   -- colorscheme
   { src = "https://github.com/vague2k/vague.nvim" },
-  { src = "https://github.com/theisimonho/kanagawa-paper.nvim" },
+  { src = "https://github.com/thesimonho/kanagawa-paper.nvim" },
   { src = "https://github.com/EdenEast/nightfox.nvim" },
   { src = "https://github.com/rose-pine/neovim" },
   { src = "https://github.com/AlexvZyl/nordic.nvim" },
