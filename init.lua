@@ -25,9 +25,9 @@ vim.opt.cursorcolumn = false
 vim.opt.wrap = false
 
 -- tabs
-vim.opt.tabstop = 2        -- tabwidth
-vim.opt.shiftwidth = 2     -- indent width
-vim.opt.softtabstop = 2    -- soft tab stop not tabs on tab/backspace
+vim.opt.tabstop = 4        -- tabwidth
+vim.opt.shiftwidth = 4     -- indent width
+vim.opt.softtabstop = 4    -- soft tab stop not tabs on tab/backspace
 vim.opt.expandtab = true   -- use spaces instead of tabs
 vim.opt.smartindent = true -- smart auto-indent
 vim.opt.autoindent = true  -- copy indent from current line
@@ -43,7 +43,7 @@ local undodir = vim.fn.expand("~/.vim/undodir")
 if
     vim.fn.isdirectory(undodir) == 0 -- create undodir if nonexistent
 then
-  vim.fn.mkdir(undodir, "p")
+    vim.fn.mkdir(undodir, "p")
 end
 
 vim.opt.backup = false      -- do not create a backup file
@@ -79,25 +79,25 @@ vim.opt.cmdwinheight = 5                          -- height of the command-line 
 -- ===== DIAGNOSTIC =====
 vim.diagnostic.enable(true)
 local diagnostic_signs = {
-  Error = " ",
-  Warn = " ",
-  Hint = "",
-  Info = "",
+    Error = " ",
+    Warn = " ",
+    Hint = "",
+    Info = "",
 }
 --
 vim.diagnostic.config({
-  virtual_text = false,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
-      [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
-      [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
-      [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+    virtual_text = false,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = diagnostic_signs.Error,
+            [vim.diagnostic.severity.WARN] = diagnostic_signs.Warn,
+            [vim.diagnostic.severity.INFO] = diagnostic_signs.Info,
+            [vim.diagnostic.severity.HINT] = diagnostic_signs.Hint,
+        },
     },
-  },
-  underline = true,
-  update_in_insert = false,
-  severity_sort = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
 })
 
 -- ============================================================================
@@ -113,7 +113,7 @@ map('n', '<leader>e', ':lua MiniFiles.open()<CR>')
 map('n', '<leader>ef', '<Cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>')
 map('n', '<leader>ed', '<Cmd>lua MiniFiles.open()<CR>')
 map('n', '<leader>ld', function() vim.diagnostic.setloclist({ open = true }) end,
-  { desc = "[L]ocation [D]iagnostics (useful if I want to copy the error message)" })
+    { desc = "[L]ocation [D]iagnostics (useful if I want to copy the error message)" })
 map('n', '<leader>lf', vim.lsp.buf.format)
 map('n', '<leader>qi', ":quit<CR>")
 
@@ -175,40 +175,40 @@ vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silen
 
 -- ===== COLORSCHEME =====
 vim.pack.add({
-  -- colorscheme
-  { src = "https://github.com/vague2k/vague.nvim" },
-  { src = "https://github.com/thesimonho/kanagawa-paper.nvim" },
-  { src = "https://github.com/EdenEast/nightfox.nvim" },
-  { src = "https://github.com/rose-pine/neovim" },
-  { src = "https://github.com/AlexvZyl/nordic.nvim" },
-  { src = "https://github.com/savq/melange-nvim" },
-  { src = "https://github.com/webhooked/kanso.nvim" },
+    -- colorscheme
+    { src = "https://github.com/vague2k/vague.nvim" },
+    { src = "https://github.com/thesimonho/kanagawa-paper.nvim" },
+    { src = "https://github.com/EdenEast/nightfox.nvim" },
+    { src = "https://github.com/rose-pine/neovim" },
+    { src = "https://github.com/AlexvZyl/nordic.nvim" },
+    { src = "https://github.com/savq/melange-nvim" },
+    { src = "https://github.com/webhooked/kanso.nvim" },
 })
 require("kanagawa-paper").setup({
-  styles = {
-    comment = {
-      italic = false
+    styles = {
+        comment = {
+            italic = false
+        }
     }
-  }
 })
 require("kanso").setup({
-  -- minimal = true,
-  -- foreground = 'saturated'
+    minimal = true,
+    -- foreground = 'saturated'
 })
 
 vim.cmd.colorscheme("kanso-mist")
 
 -- ===== MINI =====
 vim.pack.add({
-  { src = "https://github.com/nvim-mini/mini.nvim" },
+    { src = "https://github.com/nvim-mini/mini.nvim" },
 })
 require("mini.files").setup({
-  windows = {
-    preview = true,
-    max_number = 3,
-    width_no_focus = 10,
-    width_preview = 50
-  }
+    windows = {
+        preview = true,
+        max_number = 3,
+        width_no_focus = 10,
+        width_preview = 50
+    }
 })
 require("mini.icons").setup()
 require("mini.pairs").setup()
@@ -217,195 +217,195 @@ require("mini.surround").setup()
 require("mini.cursorword").setup()
 require("mini.statusline").setup()
 require("mini.tabline").setup()
+require("mini.cmdline").setup()
 local hipatterns = require('mini.hipatterns')
 hipatterns.setup({
-  highlighters = {
-    -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE', PERF
-    fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-    hack      = { pattern = '%f[%w]()PERF()%f[%W]', group = 'MiniHipatternsHack' },
-    todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-    note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+    highlighters = {
+        -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE', PERF
+        fixme     = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+        hack      = { pattern = '%f[%w]()PERF()%f[%W]', group = 'MiniHipatternsHack' },
+        todo      = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+        note      = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
 
-    -- Highlight hex color strings (`#rrggbb`) using that color
-    hex_color = hipatterns.gen_highlighter.hex_color(),
-  },
-
+        -- Highlight hex color strings (`#rrggbb`) using that color
+        hex_color = hipatterns.gen_highlighter.hex_color(),
+    },
 })
 
 -- ===== LSP and COMPLETION =====
 vim.pack.add({
-  -- lsp
-  { src = "https://github.com/neovim/nvim-lspconfig" },
-  { src = "https://github.com/mason-org/mason.nvim" },
-  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
-  -- completion
-  { src = "https://github.com/L3MON4D3/LuaSnip" },
-  { src = "https://github.com/rafamadriz/friendly-snippets" },
-  { src = "https://github.com/Saghen/blink.cmp" },
+    -- lsp
+    { src = "https://github.com/neovim/nvim-lspconfig" },
+    { src = "https://github.com/mason-org/mason.nvim" },
+    { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+    -- completion
+    { src = "https://github.com/L3MON4D3/LuaSnip" },
+    { src = "https://github.com/rafamadriz/friendly-snippets" },
+    { src = "https://github.com/Saghen/blink.cmp" },
 })
 require("mason").setup()
 require("mason-lspconfig").setup {
-  ensure_installed = { "lua_ls", "vtsls", "gopls", "pyright" },
+    ensure_installed = { "lua_ls", "vtsls", "gopls", "pyright" },
 }
 
 -- rm global warnings
 vim.lsp.config("lua_ls", {
-  settings = {
-    Lua = {
-      diagnostics = { globals = { "vim" } },
-      telemetry = { enable = false },
+    settings = {
+        Lua = {
+            diagnostics = { globals = { "vim" } },
+            telemetry = { enable = false },
+        },
     },
-  },
 })
 vim.lsp.config("pyright", {})
 vim.lsp.config("vtsls", {})
 vim.lsp.config("gopls", {
-  analyses = {
-    unusedparams = true,
-  },
-  staticcheck = true,
-  gofumpt = true,
+    analyses = {
+        unusedparams = true,
+    },
+    staticcheck = true,
+    gofumpt = true,
 }
 )
 vim.lsp.config("clangd", {})
 
 vim.lsp.config["*"] = {
-  capabilities = require("blink.cmp").get_lsp_capabilities(),
+    capabilities = require("blink.cmp").get_lsp_capabilities(),
 }
 
 vim.lsp.enable({
-  "lua_ls",
-  "pyright",
-  "vtsls",
-  "gopls",
+    "lua_ls",
+    "pyright",
+    "vtsls",
+    "gopls",
 })
 
 require("luasnip.loaders.from_vscode").lazy_load()
 require("blink.cmp").setup({
-  signature = { enabled = true },
-  keymap = {
-    preset = 'default',
-    ["<TAB>"] = { "accept", "fallback" },
-    ["<CR>"] = { "accept", "fallback" },
-  },
-  completion = {
-    ghost_text = {
-      enabled = true,
+    signature = { enabled = true },
+    keymap = {
+        preset = 'default',
+        ["<TAB>"] = { "accept", "fallback" },
+        ["<CR>"] = { "accept", "fallback" },
     },
-    list = {
-      selection = {
-        preselect = true
-      }
+    completion = {
+        ghost_text = {
+            enabled = true,
+        },
+        list = {
+            selection = {
+                preselect = true
+            }
+        },
+        documentation = {
+            auto_show = true,
+        },
+        menu = {
+            auto_show = true,
+        }
     },
-    documentation = {
-      auto_show = true,
+    appearance = { nerd_font_variant = "mono" },
+    sources = { default = { "lsp", "path", "buffer", "snippets" } },
+    snippets = {
+        expand = function(snippet)
+            require("luasnip").lsp_expand(snippet)
+        end,
     },
-    menu = {
-      auto_show = true,
-    }
-  },
-  appearance = { nerd_font_variant = "mono" },
-  sources = { default = { "lsp", "path", "buffer", "snippets" } },
-  snippets = {
-    expand = function(snippet)
-      require("luasnip").lsp_expand(snippet)
-    end,
-  },
-  fuzzy = {
-    implementation = "lua",
-    prebuilt_binaries = { download = true, force_version = "v0.8.2" },
-  },
+    fuzzy = {
+        implementation = "lua",
+        prebuilt_binaries = { download = true, force_version = "v0.8.2" },
+    },
 })
 
 -- ===== SNACKS =====
 vim.pack.add({
-  { src = "https://github.com/folke/snacks.nvim" },
-  { src = "https://github.com/ibhagwan/fzf-lua" },
+    { src = "https://github.com/folke/snacks.nvim" },
+    { src = "https://github.com/ibhagwan/fzf-lua" },
 })
 
 require("snacks").setup({
-  bigfile = { enabled = true },
-  indent = {
-    enabled = true,
+    bigfile = { enabled = true },
     indent = {
-      hl = {
-        "SnacksIndent1",
-        "SnacksIndent2",
-        "SnacksIndent3",
-        "SnacksIndent4",
-        "SnacksIndent5",
-        "SnacksIndent6",
-        "SnacksIndent7",
-        "SnacksIndent8",
-      },
-      -- char = "|"
+        enabled = true,
+        indent = {
+            hl = {
+                "SnacksIndent1",
+                "SnacksIndent2",
+                "SnacksIndent3",
+                "SnacksIndent4",
+                "SnacksIndent5",
+                "SnacksIndent6",
+                "SnacksIndent7",
+                "SnacksIndent8",
+            },
+            -- char = "|"
+        },
+        scope = {
+            hl = {
+                "SnacksIndent1",
+                "SnacksIndent2",
+                "SnacksIndent3",
+                "SnacksIndent4",
+                "SnacksIndent5",
+                "SnacksIndent6",
+                "SnacksIndent7",
+                "SnacksIndent8",
+            },
+            -- char = "╎",
+            char = "|"
+        },
     },
     scope = {
-      hl = {
-        "SnacksIndent1",
-        "SnacksIndent2",
-        "SnacksIndent3",
-        "SnacksIndent4",
-        "SnacksIndent5",
-        "SnacksIndent6",
-        "SnacksIndent7",
-        "SnacksIndent8",
-      },
-      -- char = "╎",
-      char = "|"
+        enabled = true,
+        scope = {}
     },
-  },
-  scope = {
-    enabled = true,
-    scope = {}
-  },
-  input = { enabled = true },
-  notifier = {
-    enabled = true,
-    timeout = 3000,
-  },
-  picker = {
-    enabled = true,
-    layouts = {
-      horizontalMax = {
-        layout = {
-          box = "horizontal",
-          width = 0.95,
-          min_width = 120,
-          height = 0.95,
-          {
-            box = "vertical",
-            border = true,
-            title = "{title} {live} {flags}",
-            { win = "input", height = 1,     border = "bottom" },
-            { win = "list",  border = "none" },
-          },
-          { win = "preview", title = "{preview}", border = true, width = 0.5 },
-        }
-      },
-      verticalMax = {
-        layout = {
-          backdrop = false,
-          width = 0.95,
-          min_width = 80,
-          height = 0.95,
-          min_height = 30,
-          box = "vertical",
-          border = true,
-          title = "{title} {live} {flags}",
-          title_pos = "center",
-          { win = "input",   height = 1,          border = "bottom" },
-          { win = "list",    border = "top" },
-          { win = "preview", title = "{preview}", height = 0.5,     border = "top" },
+    input = { enabled = true },
+    notifier = {
+        enabled = true,
+        timeout = 3000,
+    },
+    picker = {
+        enabled = true,
+        layouts = {
+            horizontalMax = {
+                layout = {
+                    box = "horizontal",
+                    width = 0.95,
+                    min_width = 120,
+                    height = 0.95,
+                    {
+                        box = "vertical",
+                        border = true,
+                        title = "{title} {live} {flags}",
+                        { win = "input", height = 1,     border = "bottom" },
+                        { win = "list",  border = "none" },
+                    },
+                    { win = "preview", title = "{preview}", border = true, width = 0.5 },
+                }
+            },
+            verticalMax = {
+                layout = {
+                    backdrop = false,
+                    width = 0.95,
+                    min_width = 80,
+                    height = 0.95,
+                    min_height = 30,
+                    box = "vertical",
+                    border = true,
+                    title = "{title} {live} {flags}",
+                    title_pos = "center",
+                    { win = "input",   height = 1,          border = "bottom" },
+                    { win = "list",    border = "top" },
+                    { win = "preview", title = "{preview}", height = 0.5,     border = "top" },
+                },
+            }
         },
-      }
+        layout = {
+            preset = function()
+                return vim.o.columns >= 120 and "horizontalMax" or "verticalMax"
+            end,
+        }
     },
-    layout = {
-      preset = function()
-        return vim.o.columns >= 120 and "horizontalMax" or "verticalMax"
-      end,
-    }
-  },
 })
 
 require("fzf-lua").setup({})
@@ -420,7 +420,7 @@ map("n", "<leader>n", function() require('snacks').picker.notifications() end, {
 -- [F]ind
 map("n", "<leader>fb", function() require('snacks').picker.buffers() end, { desc = "Buffers" })
 map("n", "<leader>fc", function() require('snacks').picker.files({ cwd = vim.fn.stdpath("config") }) end,
-  { desc = "Find Config File" })
+    { desc = "Find Config File" })
 map("n", "<leader>ff", function() require('snacks').picker.files() end, { desc = "Find Files" })
 map("n", "<leader>fgf", function() require('snacks').picker.git_files() end, { desc = "Find Git Files" })
 map("n", "<leader>fp", function() require('snacks').picker.projects() end, { desc = "Projects" })
@@ -443,7 +443,7 @@ map("n", "<leader>gb", function() require('snacks').picker.grep_buffers() end, {
 -- map("n", "<leader>gr", function() require('snacks').picker.grep() end, { desc = "Grep" })
 map("n", "<leader>fg", function() require('snacks').picker.grep() end, { desc = "Grep" })
 map({ "n", "x" }, "<leader>gw", function() require('snacks').picker.grep_word() end,
-  { desc = "Visual selection or word" })
+    { desc = "Visual selection or word" })
 --
 -- [S]earch
 map("n", '<leader>s"', function() require('snacks').picker.registers() end, { desc = "Registers" })
@@ -477,7 +477,7 @@ map("n", "gai", function() require('snacks').picker.lsp_incoming_calls() end, { 
 map("n", "gao", function() require('snacks').picker.lsp_outgoing_calls() end, { desc = "C[a]lls Outgoing" })
 map("n", "<leader>ss", function() require('snacks').picker.lsp_symbols() end, { desc = "LSP Symbols" })
 map("n", "<leader>sS", function() require('snacks').picker.lsp_workspace_symbols() end,
-  { desc = "LSP Workspace Symbols" })
+    { desc = "LSP Workspace Symbols" })
 
 -- Other
 map("n", "<leader>z", function() require('snacks').zen() end, { desc = "Toggle Zen Mode" })
@@ -494,33 +494,33 @@ map({ "n", "t" }, "[[", function() require('snacks').words.jump(-vim.v.count1) e
 
 -- ===== GIT =====
 vim.pack.add({
-  { src = "https://github.com/lewis6991/gitsigns.nvim" },
+    { src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
 
 require('gitsigns').setup({
-  current_line_blame = true
+    current_line_blame = true
 })
 
 -- ===== TREESITTER =====
 vim.pack.add({
-  {
-    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
-    branch = 'main',
-    build = ':TSUpdate'
-  },
+    {
+        src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+        branch = 'main',
+        build = ':TSUpdate'
+    },
 })
 
 local treesitter = require('nvim-treesitter')
 treesitter.setup({
-  highlight = {
-    enable = true, -- Enable Tree-Sitter-based syntax highlighting
-  },
-  fold = {
-    enable = true, -- Enable code folding
-  }
+    highlight = {
+        enable = true, -- Enable Tree-Sitter-based syntax highlighting
+    },
+    fold = {
+        enable = true, -- Enable code folding
+    }
 })
 treesitter.install({
-  'go', 'c', 'javascript', 'typescript', 'tsx', 'json', 'lua', 'regex', 'html', 'markdown_inline', 'python'
+    'go', 'c', 'javascript', 'typescript', 'tsx', 'json', 'lua', 'regex', 'html', 'markdown_inline', 'python'
 })
 -- Folding: requires treesitter available at runtime; safe fallback if not
 vim.opt.foldmethod = "expr"                          -- use expression for folding
@@ -530,7 +530,7 @@ vim.opt.foldenable = false
 
 -- ===== SESSIONS =====
 vim.pack.add({
-  { src = "https://github.com/rmagatti/auto-session" },
+    { src = "https://github.com/rmagatti/auto-session" },
 })
 
 require('auto-session').setup({})
@@ -538,12 +538,12 @@ vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpo
 
 -- ===== TMUX =====
 vim.pack.add({
-  { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
+    { src = "https://github.com/alexghergh/nvim-tmux-navigation" },
 })
 
 local tmux = require('nvim-tmux-navigation')
 tmux.setup({
-  disabled_when_zoomed = true
+    disabled_when_zoomed = true
 })
 map('n', "<C-h>", tmux.NvimTmuxNavigateLeft)
 map('n', "<C-j>", tmux.NvimTmuxNavigateDown)
@@ -555,43 +555,43 @@ map('n', "<C-Space>", tmux.NvimTmuxNavigateNext)
 
 -- ===== DIAGNOSTIC =====
 vim.pack.add({
-  { src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
+    { src = "https://github.com/rachartier/tiny-inline-diagnostic.nvim" },
 })
 require("tiny-inline-diagnostic").setup({
-  preset = "modern",
-  options = {
-    show_source = { enabled = true },
-  },
-  multilines = {
-    enabled = true,           -- Enable support for multiline diagnostic messages
-    always_show = false,      -- Always show messages on all lines of multiline diagnostics
-    trim_whitespaces = false, -- Remove leading/trailing whitespace from each line
-    tabstop = 4,              -- Number of spaces per tab when expanding tabs
-    severity = nil,           -- Filter multiline diagnostics by severity (e.g., { vim.diagnostic.severity.ERROR })
-  },
+    preset = "modern",
+    options = {
+        show_source = { enabled = true },
+    },
+    multilines = {
+        enabled = true,           -- Enable support for multiline diagnostic messages
+        always_show = false,      -- Always show messages on all lines of multiline diagnostics
+        trim_whitespaces = false, -- Remove leading/trailing whitespace from each line
+        tabstop = 4,              -- Number of spaces per tab when expanding tabs
+        severity = nil,           -- Filter multiline diagnostics by severity (e.g., { vim.diagnostic.severity.ERROR })
+    },
 })
 
 vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
 
 -- ===== MARKDOWN =====
 vim.pack.add({
-  { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
+    { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
 })
 
 require("render-markdown").setup({
-  completion = {
-    lsp = {
-      enabled = true
+    completion = {
+        lsp = {
+            enabled = true
+        },
+        blink = {
+            enabled = true
+        }
     },
-    blink = {
-      enabled = true
+    link = {
+        wiki = {
+            enabled = true
+        }
     }
-  },
-  link = {
-    wiki = {
-      enabled = true
-    }
-  }
 })
 -- AUTOMODS
 -- ============================================================================
@@ -599,29 +599,29 @@ local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
 
 -- highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup,
-  callback = function()
-    vim.hl.on_yank()
-  end,
+    group = augroup,
+    callback = function()
+        vim.hl.on_yank()
+    end,
 })
 -----------------------
 
 -- start treesitter
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = {
-    'go', 'c', 'javascript', 'typescript', 'json', 'lua', 'regex', 'html', 'markdown_inline', 'python'
-  },
-  callback = function() vim.treesitter.start() end,
+    pattern = {
+        'go', 'c', 'javascript', 'typescript', 'json', 'lua', 'regex', 'html', 'markdown_inline', 'python'
+    },
+    callback = function() vim.treesitter.start() end,
 })
 -----------------------
 
 -- format onsave
 vim.api.nvim_create_autocmd('BufWritePre', {
-  group = augroup,
-  callback = function()
-    local curr_buff_name = vim.api.nvim_buf_get_name(0)
-    vim.notify(string.format("formatting %s", curr_buff_name))
-    vim.lsp.buf.format({ async = false })
-  end,
+    group = augroup,
+    callback = function()
+        local curr_buff_name = vim.api.nvim_buf_get_name(0)
+        vim.notify(string.format("formatting %s", curr_buff_name))
+        vim.lsp.buf.format({ async = false })
+    end,
 })
 -----------------------
