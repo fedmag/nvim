@@ -128,10 +128,10 @@ map('i', 'jj', '<Esc>')
 map("n", "<Esc>", ":nohlsearch<CR>", { desc = "Clear search highlights" })
 
 -- move code around (SINGLE)
-map("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
-map("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
-map("n", "<A-h>", "<<", { desc = "Move line left (outdent)" })
-map("n", "<A-l>", ">>", { desc = "Move line right (indent)" })
+map("n", "<A-J>", ":m .+1<CR>==", { desc = "Move line down" })
+map("n", "<A-K>", ":m .-2<CR>==", { desc = "Move line up" })
+map("n", "<A-H>", "<<", { desc = "Move line left (outdent)" })
+map("n", "<A-L>", ">>", { desc = "Move line right (indent)" })
 -- move code around (MULTIPLES)
 map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
@@ -177,26 +177,15 @@ vim.api.nvim_set_keymap("n", "<leader>cw", ":close<CR>", { noremap = true, silen
 vim.pack.add({
     -- colorscheme
     { src = "https://github.com/vague2k/vague.nvim" },
-    { src = "https://github.com/thesimonho/kanagawa-paper.nvim" },
     { src = "https://github.com/EdenEast/nightfox.nvim" },
     { src = "https://github.com/rose-pine/neovim" },
     { src = "https://github.com/AlexvZyl/nordic.nvim" },
     { src = "https://github.com/savq/melange-nvim" },
     { src = "https://github.com/webhooked/kanso.nvim" },
 })
-require("kanagawa-paper").setup({
-    styles = {
-        comment = {
-            italic = false
-        }
-    }
-})
-require("kanso").setup({
-    minimal = true,
-    -- foreground = 'saturated'
-})
+require("kanso").setup({})
 
-vim.cmd.colorscheme("kanso-mist")
+vim.cmd.colorscheme("kanso-zen")
 
 -- ===== MINI =====
 vim.pack.add({
@@ -211,7 +200,7 @@ require("mini.files").setup({
     }
 })
 require("mini.icons").setup()
-require("mini.pairs").setup()
+require("mini.pairs").setup({})
 require("mini.ai").setup()
 require("mini.surround").setup()
 require("mini.cursorword").setup()
@@ -574,25 +563,22 @@ require("tiny-inline-diagnostic").setup({
 vim.diagnostic.config({ virtual_text = false }) -- Disable Neovim's default virtual text diagnostics
 
 -- ===== MARKDOWN =====
-vim.pack.add({
-    { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" },
-})
+vim.pack.add({ { src = "https://github.com/MeanderingProgrammer/render-markdown.nvim" }, })
 
 require("render-markdown").setup({
     completion = {
-        lsp = {
-            enabled = true
-        },
-        blink = {
-            enabled = true
-        }
+        lsp = { enabled = true },
+        blink = { enabled = true }
     },
-    link = {
-        wiki = {
-            enabled = true
-        }
+    link = { wiki = { enabled = true }
     }
 })
+
+-- ===== MULTICURSOR =====
+vim.pack.add({
+    { src = "https://github.com/mg979/vim-visual-multi" },
+})
+-- ============================================================================
 -- AUTOMODS
 -- ============================================================================
 local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
@@ -614,7 +600,6 @@ vim.api.nvim_create_autocmd('FileType', {
     callback = function() vim.treesitter.start() end,
 })
 -----------------------
-
 -- format onsave
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = augroup,
@@ -624,4 +609,4 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         vim.lsp.buf.format({ async = false })
     end,
 })
------------------------
+----------------------

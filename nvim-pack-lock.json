@@ -44,6 +44,10 @@
       "rev": "1afbbb449aa0254823dbe1932e3cbb51886ff9fe",
       "src": "https://github.com/webhooked/kanso.nvim"
     },
+    "lush.nvim": {
+      "rev": "9c60ec2279d62487d942ce095e49006af28eed6e",
+      "src": "https://github.com/rktjmp/lush.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "a324581a3c83fdacdb9804b79de1cbe00ce18550",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
@@ -131,6 +135,14 @@
     "vim-tmux-navigator": {
       "rev": "e41c431a0c7b7388ae7ba341f01a0d217eb3a432",
       "src": "https://github.com/christoomey/vim-tmux-navigator"
+    },
+    "vim-visual-multi": {
+      "rev": "a6975e7c1ee157615bbc80fc25e4392f71c344d4",
+      "src": "https://github.com/mg979/vim-visual-multi"
+    },
+    "zenbones.nvim": {
+      "rev": "22b7fb75593412e0dc81b4bdefae718e9e84aa82",
+      "src": "https://github.com/zenbones-theme/zenbones.nvim"
     }
   }
 }
